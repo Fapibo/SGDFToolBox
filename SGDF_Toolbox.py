@@ -127,7 +127,7 @@ class SGDF_ToolboxUI:
             self.Structures[ListStruct[i]] = [ MonLabel, AnneeMin, AnneeMax ]
         
     def BGo(self):
-        # création du dictionnaire de contacts et exports en fichier gmail/Excel
+        # création du dictionnaire de contacts + exports en fichier gmail/Excel
         if not self.tableOK:
             self.InfoMsg("Sélectionner d'abord un fichier valide", "Info")
         else:
@@ -197,18 +197,6 @@ class SGDF_ToolboxUI:
 #                 # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
                   # Les contacts de la maitrise sont parcourus en premier donc seul le champ des enfants est à mettre à jour.
                 index = self.ContactsDic['UID'].index(MemberDict['UID'])
-#                 for key in MemberDict:
-#                     if key == 'Enfant':
-#                         if len(self.ContactsDic['Enfant'][index])>1:
-#                             # il y a déjà un enfant
-#                             self.ContactsDic[key][index] += ' ' 
-#                         self.ContactsDic[key][index] += MemberDict[key]
-#                     elif key == 'Maitrise'
-#                     else:
-#                     self.ContactsDic[key][index] += MemberDict[key]
-               
-                
-                
                 if len(self.ContactsDic['Enfant'][index])>1:
                     # il y a déjà un enfant
                     self.ContactsDic['Enfant'][index] += ' ' + MemberDict['Enfant']
@@ -217,10 +205,6 @@ class SGDF_ToolboxUI:
                 # ajout de la structure du 2eme enfant si besoin
                 if MemberDict['Structure'] not in self.ContactsDic['Structure'][index]:
                     self.ContactsDic['Structure'][index] += ' ::: ' + MemberDict['Structure']
-#                 if MemberDict['Maitrise'] == '1':
-#                     # ex: un violet parent est dans la maitrise. Sanc ca, s'il est entré d'abord en tant que parent, il n'apparait pas dans la maitrise
-#                     self.ContactsDic['Maitrise'][index] = '1'
-#                     self.ContactsDic['StructureLong'][index] = MemberDict['StructureLong']
             else:
                 # Nouveau contact
                 for key in MemberDict:
@@ -410,7 +394,7 @@ class SGDF_ToolboxUI:
             ContactsCSV.append(self.PrepareCSV(Contact))       
         # Step 2: création du fichier
         MyDir = os.path.dirname(self.SourceFile.get())
-        CSV_Name = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'Contacts.csv'
+        CSV_Name = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'Contacts_for_GMAIL.csv'
         try:
             with open(CSV_Name, "w", newline="", encoding="utf-8") as f:
                 f.write(CSV_Header)
@@ -424,7 +408,7 @@ class SGDF_ToolboxUI:
         
     def ExportExcel(self):
         MyDir = os.path.dirname(self.SourceFile.get())
-        XlsName = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'Contacts.xlsx'
+        XlsName = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'SGDF.xlsx'
         ew = StyleFrame.ExcelWriter(XlsName)
         #exporte la liste de tous les contacts du groupe
         df1 = self.ContactsDF.drop(columns=['NomLong']).copy()
