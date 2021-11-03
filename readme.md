@@ -31,6 +31,7 @@ Le programme crée dans le même dossier:
 * un fichier excel
 
 # Lancement
+Télécharger la dernière version [ici](https://github.com/Fapibo/SGDFToolBox/releases) 
 * __Windows uniquement__: Lancement de l'executable avec un double clic
 Lancer l'executable en ignorant les avertissements de sécurité de windows <br>
 
