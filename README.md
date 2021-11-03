@@ -20,7 +20,7 @@ laisser toutes les autres options par défaut
 ## utilisation
 1. lancer le programe
 1. Selectionner le fichier extrait de l'intranet
-1. définir les option. L'option _Ne pas limiter les doublons de mails_: si l'intranet contient le même mail pour le jeune, le papa et la maman, on aura 3 contacts avec le même mail. Si décoché, seul le mail de la maman sera exporté.
+1. définir les option. <br> Explications sur l'option _Ne pas limiter les doublons de mails_: si l'intranet contient le même mail pour le jeune, le papa et la maman, on aura 3 contacts avec le même mail. Si décoché, seul le mail de la maman sera exporté.
 1. cliquer sur __"Go"__
 
 
