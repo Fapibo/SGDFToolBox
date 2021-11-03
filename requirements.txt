@@ -1,0 +1,13 @@
+# pip3 install -r requirements.txt 
+xlsxwriter
+datetime
+lxml
+pandas
+numpy 
+xlsxwriter
+styleframe
+webbrowser
+os
+csv
+re
+
