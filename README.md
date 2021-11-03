@@ -32,9 +32,9 @@ Le programme crée dans le même dossier:
 
 # Lancement
 * __Windows uniquement__: Lancement de l'executable avec un double clic
-Lancer l'executable en ignorant les avertissements de sécurité de windows
+Lancer l'executable en ignorant les avertissements de sécurité de windows <br>
 
-note: L'executable est généré par pyinstaller: `pyinstaller SGDF_Toolbox.py`
+*note*: L'executable est généré par pyinstaller: `pyinstaller SGDF_Toolbox.py`
 
 * __tout système__: directement en python
 1. installer python 3
