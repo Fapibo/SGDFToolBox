@@ -81,7 +81,7 @@ class SGDF_ToolboxUI:
             self.table  = TableList.astype(str).values.tolist() # Table 0 W/O title
         except Exception as Err:
             self.tableOK = False
-            print(str(Err))
+            #print(str(Err))
         else:
             if len(self.table) < 1 or len(self.table[0]) < ColInscDateFin:
                 self.tableOK = False
@@ -340,7 +340,7 @@ class SGDF_ToolboxUI:
         CSV_Row_List[CSV_Prenom] = MemberDict['Prenom']
         CSV_Row_List[CSV_Nom] = MemberDict['Nom']
         #CSV_Row_List[CSV_Prefixe] = MemberDict['Prefixe'] 
-        if len(MemberDict['Enfant']) > 4:
+        if len(MemberDict['Enfant']) > 1:
             Suffixe = ' (' +MemberDict['Enfant'] +')'
         else :
             Suffixe = ''
@@ -389,15 +389,15 @@ class SGDF_ToolboxUI:
         # Création du CSV pour Gmail
         # Step 1: on crée une liste 2D avec tous les champs nécéssaire à partir du dataframe
         ContactsCSV  = [] # liste 2D à exporter en CSV au format gmail. entete dans la "CSV_Header"
-        for i in range((self.ContactsDF.shape[0]-1)):
-            Contact = self.ContactsDF.iloc[i+1]
-            ContactsCSV.append(self.PrepareCSV(Contact))       
+        for i in range(self.ContactsDF.shape[0]-1):
+            Contact = self.ContactsDF.iloc[i]
+            ContactsCSV += self.PrepareCSV(Contact).copy()     
         # Step 2: création du fichier
         MyDir = os.path.dirname(self.SourceFile.get())
         CSV_Name = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'Contacts_for_GMAIL.csv'
         try:
             with open(CSV_Name, "w", newline="", encoding="utf-8") as f:
-                f.write(CSV_Header)
+                f.write(CSV_Header + '\n')
                 writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 writer.writerows(ContactsCSV)
                 f.close()
