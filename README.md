@@ -18,9 +18,9 @@ Ne pas cocher adhésion sinon, on n'a pas les invités et les inscriptions non t
 laisser toutes les autres options par défaut
 
 ## utilisation
-1. lancer le programe
+1. Lancer le programe
 1. Selectionner le fichier extrait de l'intranet
-1. définir les option. <br> L'option __Ne pas limiter les doublons de mails__: si l'intranet contient le même mail pour le jeune, le papa et la maman, on aura trois contacts avec le même mail. Si décoché, seul le mail de la maman sera exporté.
+1. Définir les options. <br> explication de l'option **Ne pas limiter les doublons de mails**: si l'intranet contient le même mail pour le jeune, le papa et la maman, on aura trois contacts avec le même mail. Si décoché, seul le mail de la maman sera exporté.
 1. cliquer sur __"Go"__
 
 
