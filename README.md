@@ -1,10 +1,10 @@
-# # But
+# Intro
 - génère les fichier CSV pour importer les contacts dans gmail
 - génère un excel de contacts des jeunes et des parents (+vérif des dates de naissance)
 
 
-# Mode d'emploi
-## Extraction des données depuis l'intranet SGDF##
+# Mode d'emplo
+## Extraction des données depuis l'intranet SGDF
 Dans l'intranet: pilatege>extraction>extraire individus
 Cocher: 
 * Fonctions principales et secondaires
@@ -16,7 +16,7 @@ Ne pas cocher adhésion sinon, on n'a pas les invités et les inscriptions non t
 
 laisser toutes les autres options par défaut
 
-## utilisation##
+## utilisation
 1. lancer le programe
 1. selectionner le fichier extrait de l'intranet
 1. définir les options:
@@ -29,7 +29,7 @@ Le programme crée dans le même dossier:
 * un fichier CSV à importer dans gmail
 * un fichier excel
 
-# Lancement #
+# Lancement
 * Windows uniquement: Utilisation de l'executable windows
 Lancer l'executable en ignorant les avertissements de sécurité de windows
 
@@ -41,7 +41,7 @@ note: L'executable est généré par pyinstaller: `pyinstaller SGDF_Toolbox.py`
 `pip3 install -r requirements.txt`
 1. lancer le script
 
-## Fichier de configuration "Const.py" ##
+## Fichier de configuration "Const.py"
 Le fichier de configuration Const.py n'a normalement pas besoin d'être modifié par l'utilisateur.
 Il contient (voir commentaires dans le fichier):
 - l'ordre des colonnes dans le fichier importé
