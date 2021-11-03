@@ -1,9 +1,10 @@
-# Intro
-- génère les fichier CSV pour importer les contacts dans gmail
-- génère un excel de contacts des jeunes et des parents (+vérif des dates de naissance)
+# But du programme
+A partir de l'extraction des individus de l'intranet scout, ce programme:
+- génère un fichier CSV pour importer les contacts du groupe dans gmail
+- génère un excel de synthèse des membres du groupe
 
 
-# Mode d'emplo
+# Mode d'emploi
 ## Extraction des données depuis l'intranet SGDF
 Dans l'intranet: pilatege>extraction>extraire individus
 Cocher: 
