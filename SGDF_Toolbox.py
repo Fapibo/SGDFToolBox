@@ -125,6 +125,7 @@ class SGDF_ToolboxUI:
                 AnneeMin = 1900
                 AnneeMax = 2100
             self.Structures[ListStruct[i]] = [ MonLabel, AnneeMin, AnneeMax ]
+        #print(self.Structures)
         
     def BGo(self):
         # création du dictionnaire de contacts + exports en fichier gmail/Excel
@@ -139,7 +140,8 @@ class SGDF_ToolboxUI:
                     TxtInscrit in self.table[i][ColInscrit]
                     ):
                     self.Add_Member(i)
-                    if TxT_LJ or TxT_SG or TxT_PK or TxT_Farfa in self.table[i][Colstruct]:
+#                    if TxT_LJ or TxT_SG or TxT_PK or TxT_Farfa in self.table[i][Colstruct]:
+                    if self.table[i][ColMaitrise] =='0':
                         self.Add_Parents(i)
             # tous les contacts sont ajoutés à self.ContactsDic
             # conversion en dataframe pandas pour pouvoir manipuler les lignes/colonnes plus facilement
@@ -149,9 +151,17 @@ class SGDF_ToolboxUI:
             self.ContactsDF = self.ContactsDF.drop(columns=['UID'])
             # colonne Maitrise = non si vide ou '0' / Oui si '1'
             self.ContactsDF['Maitrise'] = ['Non' if Item != '1' else 'Oui' for Item in self.ContactsDF['Maitrise']]
-            
+
             # lance l'export
-            self.ExportGmailCSV()
+            FNamePref = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ")
+            FName = FNamePref + '_GMAIL_ALL.csv'            
+            self.ExportGmailCSV(FName,'All')
+
+            for NomUnit in self.Structures:
+                NomUnitCourt = self.Structures[NomUnit][0]
+                FName = FNamePref + '_GMAIL_' + NomUnitCourt +'.csv'
+                self.ExportGmailCSV(FName,NomUnitCourt)
+
             self.ExportExcel()
     
     def CreateNewMember(self):
@@ -159,16 +169,18 @@ class SGDF_ToolboxUI:
         MemberDict = {}
         MemberDict['Nom'] = ''
         MemberDict['Prenom'] = ''
+        MemberDict['Civ'] = ''
+        for Key in self.Structures:
+            MemberDict[self.Structures[Key][0]] = ''
         MemberDict['Maitrise'] = ''
-        MemberDict['Structure'] = ''
         MemberDict['ParentType'] = ''
-        MemberDict['Enfant'] = ''
+        MemberDict['Enfant'] = []
         MemberDict['InscType'] = ''
         MemberDict['InscDateFin'] = ''
         MemberDict['VerifAge'] = ''
-        MemberDict['DateN'] = ''
         MemberDict['Fonction'] = ''
         MemberDict['FoncSecondaire'] = ''
+        MemberDict['DateN'] = ''
         MemberDict['Mail1'] = ''
         MemberDict['Mail2'] = ''
         MemberDict['Tel1'] = ''
@@ -181,7 +193,7 @@ class SGDF_ToolboxUI:
         MemberDict['CP'] = ''
         MemberDict['Ville'] = ''
         MemberDict['Pays'] = ''
-        MemberDict['UID'] = ''
+        MemberDict['UID'] = ''        
         return MemberDict.copy()
 
     def AddInContactDict(self, MemberDict):
@@ -194,17 +206,14 @@ class SGDF_ToolboxUI:
             # création d'un UID pour chercher les doublons de parents
             MemberDict['UID'] = MemberDict['Nom']+MemberDict['Prenom']+MemberDict['Tel1']+MemberDict['Tel2']+MemberDict['Tel3']+MemberDict['Tel4']
             if MemberDict['UID'] in self.ContactsDic['UID']:
-#                 # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
+                  # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
                   # Les contacts de la maitrise sont parcourus en premier donc seul le champ des enfants est à mettre à jour.
                 index = self.ContactsDic['UID'].index(MemberDict['UID'])
-                if len(self.ContactsDic['Enfant'][index])>1:
-                    # il y a déjà un enfant
-                    self.ContactsDic['Enfant'][index] += ' ' + MemberDict['Enfant']
-                else:
-                    self.ContactsDic['Enfant'][index] = MemberDict['Enfant']
-                # ajout de la structure du 2eme enfant si besoin
-                if MemberDict['Structure'] not in self.ContactsDic['Structure'][index]:
-                    self.ContactsDic['Structure'][index] += ' ::: ' + MemberDict['Structure']
+                self.ContactsDic['Enfant'][index] += MemberDict['Enfant']
+                for Key in self.Structures:
+                    # ajout des infos des colonnes structures
+                    if MemberDict[self.Structures[Key][0]] != '':
+                        self.ContactsDic[self.Structures[Key][0]][index] = MemberDict[self.Structures[Key][0]]
             else:
                 # Nouveau contact
                 for key in MemberDict:
@@ -214,6 +223,7 @@ class SGDF_ToolboxUI:
         # Ajoute le membre au Dictionnaire de Contacts
         # in: indic du tableau du fichier importé
         MemberDict = self.CreateNewMember()
+        MemberDict['Civ'] = self.table[i][ColCiv]
         MemberDict['Nom'] = self.table[i][ColNom]
         MemberDict['Prenom'] = self.table[i][ColPrenom].title()
         MemberDict['NomLong'] = self.table[i][ColNom] + ' ' + self.table[i][ColPrenom].title()
@@ -227,12 +237,19 @@ class SGDF_ToolboxUI:
         MemberDict['Ville'] = self.table[i][ColVille].title()
         MemberDict['Pays'] = self.table[i][ColPays].title()
         MemberDict['StructureLong'] = self.table[i][Colstruct]
-        MemberDict['Structure'] = self.Structures[self.table[i][Colstruct]][0]
+        MaStruct = self.Structures[self.table[i][Colstruct]][0]
         if self.table[i][ColMaitrise] == '1':
-            MemberDict['Structure'] += ' Maitrise'
+            MemberDict[MaStruct] = LabelMaitrise
+        else:
+            MemberDict[MaStruct] = LabelMembre
         MemberDict['Maitrise'] = self.table[i][ColMaitrise]
         MemberDict['Fonction'] = self.table[i][ColFonction]
-        MemberDict['FoncSecondaire'] = self.table[i][ColFoncSecondaire]
+        
+        if TxtCompaFnSecondr in self.table[i][ColFoncSecondaire] :
+            # Compagnon fonction secondaire
+            MemberDict['FoncSecondaire'] = self.table[i][ColFoncSecondaire]
+            MemberDict[LabelCompa]  = LabelMembre
+            
         MemberDict['InscDateFin']= self.table[i][ColInscDateFin]
         MemberDict['DateN'] = self.table[i][ColDateN]
         # ajout des mails
@@ -273,11 +290,12 @@ class SGDF_ToolboxUI:
         MemberDict['Tel4'] = self.table[i][ColPapaTel4]
         MemberDict['Adr'] = self.table[i][ColPapaAdr1].title() + ' '+ self.table[i][ColPapaAdr2].title() + ' ' + self.table[i][ColPapaAdr3].title()
         MemberDict['CP'] = self.table[i][ColPapaCP] 
-        MemberDict['Structure'] = self.Structures[self.table[i][Colstruct]][0] + ' Parents'
+        MaStruct = self.Structures[self.table[i][Colstruct]][0] 
+        MemberDict[MaStruct] = LabelParent
         MemberDict['Ville'] = self.table[i][ColPapaVille].title()
         MemberDict['Pays'] = self.table[i][ColPapaPays].title()
         # ajout des mails
-        if self.KeepDuplicatesMails.get() == 1 :#or self.table[i][ColMaitrise] == '1':
+        if self.KeepDuplicatesMails.get() == 1 :
             # on veut garder les mails des parents en double
             # soit par choix, soit parce que c'est un responsable ET parent (sinon on a une double entrée)
             MemberDict['Mail1'] = self.table[i][ColPapaMail1]
@@ -289,14 +307,15 @@ class SGDF_ToolboxUI:
                 MemberDict['Mail1'] = self.table[i][ColPapaMail1]
             if self.table[i][ColPapaMail2] not in MailsMaman:
                 MemberDict['Mail2'] = self.table[i][ColPapaMail2]
-        MemberDict['ParentType'] = 'Papa '
+        MemberDict['ParentType'] = LabelPapa
+        MemberDict['Civ'] = self.table[i][ColPapaCiv]
         if self.table[i][ColNom] != self.table[i][ColPapaNom]:
             Enfant = self.table[i][ColPrenom].title() +' '+ self.table[i][ColNom] + '[' + self.Structures[self.table[i][Colstruct]][0]+ ']'
         else:
             # même nom: on ne met que le prénom
             Enfant = self.table[i][ColPrenom].title() + '[' + self.Structures[self.table[i][Colstruct]][0]+ ']'
-        MemberDict['Enfant'] = Enfant
-        self.AddInContactDict(MemberDict) # ajoute Papa aux contacts
+        MemberDict['Enfant'] = [ Enfant ]
+        self.AddInContactDict(MemberDict.copy()) # ajoute Papa aux contacts
         
         MemberDict['Nom'] = self.table[i][ColMamNom]
         MemberDict['Prenom'] = self.table[i][ColMamPrenom].title()
@@ -311,13 +330,14 @@ class SGDF_ToolboxUI:
         MemberDict['Pays'] = self.table[i][ColMamPays].title()
         MemberDict['Mail1'] = self.table[i][ColMamMail1]
         MemberDict['Mail2'] = self.table[i][ColMamMail2]
-        MemberDict['ParentType'] = 'Maman '
+        MemberDict['ParentType'] = LabelMaman
+        MemberDict['Civ'] = self.table[i][ColMamCiv]
         if self.table[i][ColNom] != self.table[i][ColMamNom]:
             Enfant = self.table[i][ColPrenom].title() +' '+ self.table[i][ColNom] + '[' + self.Structures[self.table[i][Colstruct]][0] + ']'
         else:
             Enfant = self.table[i][ColPrenom].title() + '[' + self.Structures[self.table[i][Colstruct]][0] + ']'
-        MemberDict['Enfant'] = Enfant
-        self.AddInContactDict(MemberDict) # ajoute Maman aux contacts
+        MemberDict['Enfant'] = [ Enfant ]
+        self.AddInContactDict(MemberDict.copy()) # ajoute Maman aux contacts
 
 
     def InfoMsg(self,Message,Type):
@@ -331,7 +351,7 @@ class SGDF_ToolboxUI:
             self.Infolabel.configure(bg="white")
         self.Infolabel.update()
         
-    def PrepareCSV(self , MemberDict):
+    def PrepareCSV(self , MemberDict,FiltreUnit):
         # récupère un disctionnaire avec les infos à mettre
         # retourne une liste avec la ou les lignes pour export en CSV sous forme de liste
         CSV_Row_List = [''] * CSVNbCol # crée une liste vide par défaut
@@ -339,9 +359,8 @@ class SGDF_ToolboxUI:
         # liste où ajouter
         CSV_Row_List[CSV_Prenom] = MemberDict['Prenom']
         CSV_Row_List[CSV_Nom] = MemberDict['Nom']
-        #CSV_Row_List[CSV_Prefixe] = MemberDict['Prefixe'] 
-        if len(MemberDict['Enfant']) > 1:
-            Suffixe = ' (' +MemberDict['Enfant'] +')'
+        if len(MemberDict['Enfant']) >= 1:
+            Suffixe = ' (' + ' '.join(MemberDict['Enfant']) +')'
         else :
             Suffixe = ''
         CSV_Row_List[CSV_notes] = MemberDict['InscType'] +' jusqu\'au ' + MemberDict['InscDateFin']
@@ -357,13 +376,16 @@ class SGDF_ToolboxUI:
         CSV_Row_List[CSV_ville] = MemberDict['Ville']
         CSV_Row_List[CSV_CP] = MemberDict['CP']
         CSV_Row_List[CSV_Pays] = MemberDict['Pays']
-        CSV_Row_List[CSV_Structure] = MemberDict['Structure']
+#         CSV_Row_List[CSV_Structure] = MemberDict['Structure']
+        
         # maj des étiquettes GMAIL
         CSV_Row_List[CSV_Group] = '* My Contacts'
-        if MemberDict['Structure'] != '':
-            CSV_Row_List[CSV_Group] += ' ::: ' + MemberDict['Structure']
-        if TxtCompa in MemberDict['FoncSecondaire'] :
-            CSV_Row_List[CSV_Group] += ' ::: ' +  LabelCompa 
+        for NomUnit in self.Structures:
+            NomUnitCourt = self.Structures[NomUnit][0]
+            TypeMembre = MemberDict[NomUnitCourt]
+            if TypeMembre != '':
+                if FiltreUnit == 'All' or NomUnitCourt == FiltreUnit:
+                    CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + TypeMembre
         # on crée un contact par email = 2 contacts si on a 2 mails
         Mail1_OK = self.CheckMail(MemberDict['Mail1'])
         Mail2_OK = self.CheckMail(MemberDict['Mail2'])
@@ -385,16 +407,21 @@ class SGDF_ToolboxUI:
         OutList.append(CSV_Row_List.copy()) # le .copy permet de copier une liste indépendante. Sinon, on copie un pointeur --> doublons
         return OutList
       
-    def ExportGmailCSV(self):
+    def ExportGmailCSV(self, FName, FiltreUnit):
         # Création du CSV pour Gmail
+        # FiltreUnit = All pour tout intégrer, sinon le nom court de l'unité.
         # Step 1: on crée une liste 2D avec tous les champs nécéssaire à partir du dataframe
         ContactsCSV  = [] # liste 2D à exporter en CSV au format gmail. entete dans la "CSV_Header"
-        for i in range(self.ContactsDF.shape[0]-1):
-            Contact = self.ContactsDF.iloc[i]
-            ContactsCSV += self.PrepareCSV(Contact).copy()     
+        if FiltreUnit == 'All':
+            DF = self.ContactsDF
+        else:
+            DF = self.ContactsDF[(self.ContactsDF[FiltreUnit] != '')  ]
+        for i in range(DF.shape[0]-1):
+            Contact = DF.iloc[i]
+            ContactsCSV += self.PrepareCSV(Contact,FiltreUnit).copy()     
         # Step 2: création du fichier
         MyDir = os.path.dirname(self.SourceFile.get())
-        CSV_Name = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'Contacts_for_GMAIL.csv'
+        CSV_Name = MyDir+"/"+ FName 
         try:
             with open(CSV_Name, "w", newline="", encoding="utf-8") as f:
                 f.write(CSV_Header + '\n')
@@ -408,40 +435,55 @@ class SGDF_ToolboxUI:
         
     def ExportExcel(self):
         MyDir = os.path.dirname(self.SourceFile.get())
-        XlsName = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") + 'SGDF.xlsx'
-        ew = StyleFrame.ExcelWriter(XlsName)
+        XlsName = MyDir+"/"+ datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S ") 
+        XlsNameGlobal = XlsName + 'SGDF.xlsx'
+        ew = StyleFrame.ExcelWriter(XlsNameGlobal)
         #exporte la liste de tous les contacts du groupe
         df1 = self.ContactsDF.drop(columns=['NomLong']).copy()
-        df1 = df1.sort_values(by=['ParentType', 'Maitrise', 'Nom'])
+        # améliore la présentation des enfants
+        df1['Enfant'] = [ ' \n'.join(Item) for Item in self.ContactsDF['Enfant']]
+        df1 = df1.sort_values(by=['Nom', 'Prenom'])
         ListColumns = df1.columns.values.tolist()
         sf1 = StyleFrame(df1)
         sf1.to_excel(excel_writer=ew, 
                     row_to_add_filters=0, 
                     best_fit=ListColumns, 
-                    columns_and_rows_to_freeze='B3',
+                    columns_and_rows_to_freeze='C2',
                     sheet_name="Tous")
         TableauBord = []
-        TableauBord_Col = ['Structure', 'Incrits', 'invités', 'Total' ]
+        TableauBord_Col = ['Structure', 'Incrits', 'invités', 'Filles', 'Garçons', 'Total' ]
         for Structure in self.Structures:
             # Listing des membres de chaque unité
             StructLabel = self.Structures[Structure][0]
             StructDF = df1[df1['StructureLong'].str.contains(Structure)].copy()
-            StructDF = StructDF[(StructDF['ParentType'] == '' ) | (StructDF['Maitrise'] == 'Oui') ] # selectionne tt le monde sauf les parents
-            StructDF = StructDF[['Nom','Prenom','Maitrise','InscType','InscDateFin', 'VerifAge', 'DateN']]
+            StructDF = StructDF[(StructDF[StructLabel] != LabelParent)  ] # selectionne tt le monde sauf les parents
+            StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DateN']]
             StructDF = StructDF.sort_values(by=['Maitrise','Nom', 'Prenom'])
             ListColumns = StructDF.columns.values.tolist()
             sf2 = StyleFrame(StructDF)
             sf2.to_excel(excel_writer=ew,
                          row_to_add_filters=0,
                          best_fit=ListColumns,
+                         columns_and_rows_to_freeze='C2',
                          sheet_name=StructLabel)
+            # ecriture de l'excel de chaque unité
+            ew2 = StyleFrame.ExcelWriter(XlsName + ' ' + StructLabel + '.xlsx')
+            sf2.to_excel(excel_writer=ew2,
+                         row_to_add_filters=0,
+                         best_fit=ListColumns,
+                         columns_and_rows_to_freeze='C2',
+                         sheet_name=StructLabel)
+            ew2.save()
+            
             # Compte le nombre d'enfants:
             StructDF = StructDF[(StructDF['Maitrise'] == 'Non' ) ]
             NbInscrit = StructDF[StructDF['InscType'].str.contains(TxtInscrit)].shape[0]
             NbInvit = StructDF[StructDF['InscType'].str.contains(TxtInvit)].shape[0]
+            NbFille = StructDF[StructDF['Civ'].str.contains(TxtFille)].shape[0]
             NbTot = NbInvit + NbInscrit
+            NbGar = NbTot - NbFille
             if NbTot != 0:
-                TableauBord.append([Structure, NbInscrit, NbInvit, NbInscrit+NbInvit])
+                TableauBord.append([Structure, NbInscrit, NbInvit, NbFille, NbGar, NbInscrit+NbInvit])
         # ajoute le tableau de bord à l'excel
         TableauBordDF = pd.DataFrame(TableauBord, columns=TableauBord_Col)
         TableauBordSF = StyleFrame(TableauBordDF)

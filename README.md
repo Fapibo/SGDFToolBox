@@ -1,7 +1,10 @@
 # But du programme
 A partir de l'extraction des individus de l'intranet scout, ce programme:
-- génère un fichier CSV pour importer les contacts du groupe dans gmail
-- génère un excel de synthèse des membres du groupe
+1. Export des contacts vers GMAIL: crée un fichier de tous les contacts pour le groupe (+1 par unité). 
+1. génère un excel de synthèse avec:
+- un onglet contenant tous les contacts du groupe (parents inclus)
+- un onlget avec les effectifs par unité (sans les parents)
+- des membres du groupe
 
 
 # Mode d'emploi

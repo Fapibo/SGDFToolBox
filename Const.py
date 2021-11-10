@@ -22,6 +22,7 @@ ColTel4 = 21 # Individu.TelephoneBureau
 ColMail1 = 23 # Individu.CourrielPersonnel
 ColMail2 = 24 # Individu.CourrielDédiéSGDF
 ColDateN = 25 # Date de naissance
+ColPapaCiv = 40 # PereCivilite.NomCourt
 ColPapaNom = 42 # Pere.Nom
 ColPapaPrenom = 43 # Pere.Prenom
 ColPapaAdr1 = 44 # Pere.Adresse.Ligne1
@@ -36,6 +37,7 @@ ColPapaTel3 = 52 # Pere.TelephonePortable2
 ColPapaTel4 = 53 # Pere.TelephoneBureau
 ColPapaMail1 = 55 # Pere.CourrielPersonnel
 ColPapaMail2 = 56 # Pere.CourrielDédiéSGDF
+ColMamCiv = 57 # MereCivilite.NomCourt
 ColMamNom = 59 # Mere.Nom
 ColMamPrenom = 60 # Mere.Prenom
 ColMamAdr1 = 61 # Mere.Adresse.Ligne1
@@ -57,39 +59,30 @@ ColInscDateFin = 76 # Inscriptions.Date.fin
 TxtPreInscrit = "Pre-inscrit"
 TxtInvit = "Invit"
 TxtInscrit = "Inscrit"
-TxT_LJ = 'LOUVETEAU' # texte forcement contenu dans Structure.Nom
-TxT_SG = 'SCOUTS GUIDES' # texte forcement contenu dans Structure.Nom
-TxT_PK = 'PIONNIERS CARAVELLES' # texte forcement contenu dans Structure.Nom
-TxT_Farfa = 'FARFADETS' # texte forcement contenu dans Structure.Nom
-Txt_Violets = 'GROUPE DE VAISE'
-TxtCompa = 'COMPAGNONS - VAISE'
-Label_LJ = 'Oranges' 
-Label_SG = 'Bleus' 
-Label_PK = 'Rouges' 
-Label_Farfa = 'Farfas' 
-Label_Violets = 'Violets'
-LabelCompa = 'Compas'
-AgeMinLJ = 7
-AgeMinSG = 10
-AgeMinPK = 13
-AgeMinComp = 16
+TxtFille = 'e' # texte contenu dans la colonne civité qui permet de savoir si c'est une fille -- lettre "e"
+LabelMembre = 'Membre(s)'
+LabelParent = 'Parent(s)'
+LabelMaitrise = 'Maitrise'
+LabelPapa = 'Papa'
+LabelMaman = 'Maman'
+
 # cette liste de dictionnaire contient les infos de la structure
 # Label = nom cours
 # Txt = Texte a chercher dans les données de l'intranet pour trouver l'unité (s'il y a plusieurs unités, ne pas mettre le numéro)
 # age min sert pour vérifier si l'enfant est bien inscrit dans la bonne couleur
+
+# utile pour detecter les compas en fonciton secondaires et pour ajouter les maitrises Farfa et Compas aux violets
+TxtCompaFnSecondr = '- 1ERE COMPAGNONS -'
+LabelCompa = 'Compas'
+
 Struct_Type = [
                 {"Label": 'Oranges' , "Txt":'LOUVETEAU' ,  "AgeMin": 8, "AgeMax": 10},
                 {"Label": 'Bleus' , "Txt":'SCOUTS GUIDES' ,  "AgeMin": 11, "AgeMax": 13},
                 {"Label": 'Rouges' , "Txt":'PIONNIERS CARAVELLES' ,  "AgeMin": 14, "AgeMax": 16},
-                {"Label": 'Farfas' , "Txt":'FARFADETS' ,  "AgeMin": 6, "AgeMax": 7},
+                {"Label": 'Farfas', "Txt":'FARFADETS' ,  "AgeMin": 6, "AgeMax": 7},
                 {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 999},
-                {"Label": 'Compas' , "Txt":'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 999}
+                {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 999}
             ]
-
-
-
-# Format contact
-#* My Contacts ::: majyyyy10dd-162508 ::: Parents ::: Parents rouge
 
 ###########
 CSVNbCol = 60
