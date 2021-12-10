@@ -6,7 +6,7 @@ A partir de l'extraction des individus de l'intranet scout, ce programme:
 - un onlget avec les effectifs par unité (sans les parents)
 - des membres du groupe
 
-![IHM](intereface.png "Intereface")
+![Interface](./Interface.png "Interface")
 
 
 
