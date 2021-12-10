@@ -1,3 +1,6 @@
+# Interface
+![Interface](./Interface.png "Interface")
+
 # But du programme
 A partir de l'extraction des individus de l'intranet scout, ce programme:
 1. Export des contacts vers GMAIL: crée un fichier de tous les contacts pour le groupe (+1 par unité). 
@@ -5,10 +8,6 @@ A partir de l'extraction des individus de l'intranet scout, ce programme:
 - un onglet contenant tous les contacts du groupe (parents inclus)
 - un onlget avec les effectifs par unité (sans les parents)
 - des membres du groupe
-
-![Interface](./Interface.png "Interface")
-
-
 
 # Mode d'emploi
 ## Extraction des données depuis l'intranet SGDF
