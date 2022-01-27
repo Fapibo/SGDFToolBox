@@ -416,9 +416,11 @@ class SGDF_ToolboxUI:
             DF = self.ContactsDF
         else:
             DF = self.ContactsDF[(self.ContactsDF[FiltreUnit] != '')  ]
-        for i in range(DF.shape[0]-1):
+        for i in range(DF.shape[0]):
             Contact = DF.iloc[i]
-            ContactsCSV += self.PrepareCSV(Contact,FiltreUnit).copy()     
+            ContactsCSV += self.PrepareCSV(Contact,FiltreUnit).copy()
+#            if "NomDBG" in Contact['Nom']:
+#                print(Contact)
         # Step 2: création du fichier
         MyDir = os.path.dirname(self.SourceFile.get())
         CSV_Name = MyDir+"/"+ FName 
