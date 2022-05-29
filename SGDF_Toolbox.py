@@ -105,9 +105,11 @@ class SGDF_ToolboxUI:
         # pour calculer l'année de naissance min/max , il faut savoir si on est avant ou après janvier
         Annee = datetime.datetime.now().year
         Annee = Annee  if datetime.datetime.now().month >= 9 else Annee -1
-        
         # ListStruct contient la liste de tt les unités du groupe.
+        #print(ListStruct)
+
         # initialisation des elements
+        StrStructList='#'.join(ListStruct) # pour faciliter la recherche des unités en double ou triple
         for i in range(len(ListStruct)):
             StructFound = False
             for j in range(len(Struct_Type)):
@@ -117,15 +119,16 @@ class SGDF_ToolboxUI:
                     MonLabel = Struct_Type[j]['Label']
                     AnneeMax = Annee - Struct_Type[j]['AgeMin']
                     AnneeMin =  Annee - Struct_Type[j]['AgeMax']
-                    if ListStruct[i].count(Struct_Type[j]['Txt']) >= 2:
-                        # si plus qu'une unité, on met le numéro de l'unité à la fin
+                    # si plus qu'une unité, on met le numéro de l'unité à la fin
+                    if StrStructList.count(Struct_Type[j]['Txt']) >= 2:
                         MonLabel += "_" + ListStruct[i][:1]
+                        #print(MonLabel)
             if not StructFound:
                 MonLabel = ListStruct[i]
                 AnneeMin = 1900
                 AnneeMax = 2100
             self.Structures[ListStruct[i]] = [ MonLabel, AnneeMin, AnneeMax ]
-        #print(self.Structures)
+       #print(self.Structures)
         
     def BGo(self):
         # création du dictionnaire de contacts + exports en fichier gmail/Excel
@@ -198,6 +201,7 @@ class SGDF_ToolboxUI:
 
     def AddInContactDict(self, MemberDict):
         # ajoute le MemberDict au dictionnaire de contacts
+        #print(MemberDict['Nom']+' '+MemberDict['Prenom'])
         if MemberDict['Nom'] != '':
             # Initialisation du dictionnaire
             if self.ContactsDic == {}:                 
@@ -205,6 +209,7 @@ class SGDF_ToolboxUI:
                     self.ContactsDic[key] = []
             # création d'un UID pour chercher les doublons de parents
             MemberDict['UID'] = MemberDict['Nom']+MemberDict['Prenom']+MemberDict['Tel1']+MemberDict['Tel2']+MemberDict['Tel3']+MemberDict['Tel4']
+            
             if MemberDict['UID'] in self.ContactsDic['UID']:
                   # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
                   # Les contacts de la maitrise sont parcourus en premier donc seul le champ des enfants est à mettre à jour.
@@ -217,6 +222,7 @@ class SGDF_ToolboxUI:
             else:
                 # Nouveau contact
                 for key in MemberDict:
+                    #print(key)
                     self.ContactsDic[key].append(MemberDict[key])
         
     def Add_Member(self, i):
@@ -247,9 +253,13 @@ class SGDF_ToolboxUI:
         
         if TxtCompaFnSecondr in self.table[i][ColFoncSecondaire] :
             # Compagnon fonction secondaire
-            MemberDict['FoncSecondaire'] = self.table[i][ColFoncSecondaire]
-            MemberDict[LabelCompa]  = LabelMembre
-            
+            # on recherche la structure correspondante
+            # ex:self.table[i][ColFoncSecondaire] = '140 - COMPAGNON (406933141 - 1ERE COMPAGNONS - VAISE)'
+            TmpStr = self.table[i][ColFoncSecondaire]
+            TmpStr=TmpStr[TmpStr.find("(")+1:TmpStr.find(")")] # supprime les parenthèses
+            TmpStructCompa = TmpStr[TmpStr.find('-')+2:]
+            MemberDict['FoncSecondaire'] = TmpStructCompa
+            MemberDict[self.Structures[TmpStructCompa][0]]  = LabelMembre
         MemberDict['InscDateFin']= self.table[i][ColInscDateFin]
         MemberDict['DateN'] = self.table[i][ColDateN]
         # ajout des mails
@@ -386,6 +396,14 @@ class SGDF_ToolboxUI:
             if TypeMembre != '':
                 if FiltreUnit == 'All' or NomUnitCourt == FiltreUnit:
                     CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + TypeMembre
+
+        # ajout des étiquettes globales
+        if FiltreUnit == 'All':
+            if LabelMembre in CSV_Row_List[CSV_Group] or LabelMaitrise in CSV_Row_List[CSV_Group]:
+                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
+            if LabelParent in CSV_Row_List[CSV_Group]:
+                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
+        
         # on crée un contact par email = 2 contacts si on a 2 mails
         Mail1_OK = self.CheckMail(MemberDict['Mail1'])
         Mail2_OK = self.CheckMail(MemberDict['Mail2'])
@@ -457,7 +475,8 @@ class SGDF_ToolboxUI:
         for Structure in self.Structures:
             # Listing des membres de chaque unité
             StructLabel = self.Structures[Structure][0]
-            StructDF = df1[df1['StructureLong'].str.contains(Structure)].copy()
+            #StructDF = df1[df1['StructureLong'].str.contains(Structure) | df1['FoncSecondaire'].str.contains(Structure)].copy()
+            StructDF = df1[df1[StructLabel] != '' ].copy()
             StructDF = StructDF[(StructDF[StructLabel] != LabelParent)  ] # selectionne tt le monde sauf les parents
             StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DateN']]
             StructDF = StructDF.sort_values(by=['Maitrise','Nom', 'Prenom'])

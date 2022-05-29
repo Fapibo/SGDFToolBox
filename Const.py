@@ -65,6 +65,8 @@ LabelParent = 'Parent(s)'
 LabelMaitrise = 'Maitrise'
 LabelPapa = 'Papa'
 LabelMaman = 'Maman'
+LabelTousLesParents = 'TOUS_les_parents'
+LabelTouslesMembres = 'TOUS_les_membres'
 
 # cette liste de dictionnaire contient les infos de la structure
 # Label = nom cours
@@ -80,8 +82,8 @@ Struct_Type = [
                 {"Label": 'Bleus' , "Txt":'SCOUTS GUIDES' ,  "AgeMin": 11, "AgeMax": 13},
                 {"Label": 'Rouges' , "Txt":'PIONNIERS CARAVELLES' ,  "AgeMin": 14, "AgeMax": 16},
                 {"Label": 'Farfas', "Txt":'FARFADETS' ,  "AgeMin": 6, "AgeMax": 7},
-                {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 999},
-                {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 999}
+                {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 99},
+                {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 99}
             ]
 
 ###########
