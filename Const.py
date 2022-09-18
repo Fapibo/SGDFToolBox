@@ -22,41 +22,43 @@ ColTel4 = 21 # Individu.TelephoneBureau
 ColMail1 = 23 # Individu.CourrielPersonnel
 ColMail2 = 24 # Individu.CourrielDédiéSGDF
 ColDateN = 25 # Date de naissance
-ColPapaCiv = 40 # PereCivilite.NomCourt
-ColPapaNom = 42 # Pere.Nom
-ColPapaPrenom = 43 # Pere.Prenom
-ColPapaAdr1 = 44 # Pere.Adresse.Ligne1
-ColPapaAdr2 = 45 # Pere.Adresse.Ligne2
-ColPapaAdr3 = 46 # Pere.Adresse.Ligne3
-ColPapaCP = 47 # Pere.Adresse.CodePostal
-ColPapaVille = 48 # Pere.Adresse.Municipalite
-ColPapaPays = 49 # Pere.Adresse.Pays
-ColPapaTel1 = 50 # Pere.TelephoneDomicile
-ColPapaTel2 = 51 # Pere.TelephonePortable1
-ColPapaTel3 = 52 # Pere.TelephonePortable2
-ColPapaTel4 = 53 # Pere.TelephoneBureau
-ColPapaMail1 = 55 # Pere.CourrielPersonnel
-ColPapaMail2 = 56 # Pere.CourrielDédiéSGDF
-ColMamCiv = 57 # MereCivilite.NomCourt
-ColMamNom = 59 # Mere.Nom
-ColMamPrenom = 60 # Mere.Prenom
-ColMamAdr1 = 61 # Mere.Adresse.Ligne1
-ColMamAdr2 = 62 # Mere.Adresse.Ligne2
-ColMamAdr3 = 63 # Mere.Adresse.Ligne3
-ColMamCP = 64 # Mere.Adresse.CodePostal
-ColMamVille = 65 # Mere.Adresse.Municipalite
-ColMamPays = 66 # Mere.Adresse.Pays
-ColMamTel1 = 67 # Mere.TelephoneDomicile
-ColMamTel2 = 68 # Mere.TelephonePortable1
-ColMamTel3 = 69 # Mere.TelephonePortable2
-ColMamTel4 = 70 # Mere.TelephoneBureau
-ColMamMail1 = 72 # Mere.CourrielPersonnel
-ColMamMail2 = 73 # Mere.CourrielDédiéSGDF
-ColInscrit = 74 # Inscriptions.Type
-ColInscDateFin = 76 # Inscriptions.Date.fin
+ColDroitsImage = 39#Individu.DroitOutilsNumeriques
+ColAboNewsletter = 40 # Individu.AbonnementNewsletter
+ColPapaCiv = 41 # PereCivilite.NomCourt
+ColPapaNom = 43 # Pere.Nom
+ColPapaPrenom = 44 # Pere.Prenom
+ColPapaAdr1 = 45 # Pere.Adresse.Ligne1
+ColPapaAdr2 = 46 # Pere.Adresse.Ligne2
+ColPapaAdr3 = 47 # Pere.Adresse.Ligne3
+ColPapaCP = 48 # Pere.Adresse.CodePostal
+ColPapaVille = 49 # Pere.Adresse.Municipalite
+ColPapaPays = 50 # Pere.Adresse.Pays
+ColPapaTel1 = 51 # Pere.TelephoneDomicile
+ColPapaTel2 = 52 # Pere.TelephonePortable1
+ColPapaTel3 = 53 # Pere.TelephonePortable2
+ColPapaTel4 = 54 # Pere.TelephoneBureau
+ColPapaMail1 = 56 # Pere.CourrielPersonnel
+ColPapaMail2 = 57 # Pere.CourrielDédiéSGDF
+ColMamCiv = 58 # MereCivilite.NomCourt
+ColMamNom = 60 # Mere.Nom
+ColMamPrenom = 61 # Mere.Prenom
+ColMamAdr1 = 62 # Mere.Adresse.Ligne1
+ColMamAdr2 = 63 # Mere.Adresse.Ligne2
+ColMamAdr3 = 64 # Mere.Adresse.Ligne3
+ColMamCP = 65 # Mere.Adresse.CodePostal
+ColMamVille = 66 # Mere.Adresse.Municipalite
+ColMamPays = 67 # Mere.Adresse.Pays
+ColMamTel1 = 68 # Mere.TelephoneDomicile
+ColMamTel2 = 69 # Mere.TelephonePortable1
+ColMamTel3 = 70 # Mere.TelephonePortable2
+ColMamTel4 = 71 # Mere.TelephoneBureau
+ColMamMail1 = 73 # Mere.CourrielPersonnel
+ColMamMail2 = 74 # Mere.CourrielDédiéSGDF
+ColInscrit = 75 # Inscriptions.Type
+ColInscDateFin = 77 # Inscriptions.Date.fin
 
 ###########
-TxtPreInscrit = "Pre-inscrit"
+TxtPreInscrit = "-inscrit"
 TxtInvit = "Invit"
 TxtInscrit = "Inscrit"
 TxtFille = 'e' # texte contenu dans la colonne civité qui permet de savoir si c'est une fille -- lettre "e"
@@ -67,6 +69,7 @@ LabelPapa = 'Papa'
 LabelMaman = 'Maman'
 LabelTousLesParents = 'TOUS_les_parents'
 LabelTouslesMembres = 'TOUS_les_membres'
+LabelChefs = 'TOUS_les_Chefs LJ SG PK'
 
 # cette liste de dictionnaire contient les infos de la structure
 # Label = nom cours
@@ -85,6 +88,8 @@ Struct_Type = [
                 {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 99},
                 {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 99}
             ]
+
+SelectLabelChefs = Struct_Type[0]['Label'] + Struct_Type[1]['Label'] + Struct_Type[2]['Label']
 
 ###########
 CSVNbCol = 60
@@ -115,5 +120,6 @@ CSV_Structure = 53 # Organization 1 - Name
 
 # Misc
 URLHelp = 'https://github.com/Fapibo/SGDFToolBox#readme'
+
 
 
