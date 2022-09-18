@@ -136,14 +136,13 @@ class SGDF_ToolboxUI:
             self.InfoMsg("Sélectionner d'abord un fichier valide", "Info")
         else:
             # Step 1: Lance la création du dictionnaire self.ContactsDic depuis self.table
-            for i in range(len(self.table)): #range(55,65):  #
+            for i in range(len(self.table)): #range(55,65):  #                
                 if (
                     (TxtPreInscrit in self.table[i][ColInscrit] and self.Incl_Pre_inscrits.get() == 1) or
                     (TxtInvit in self.table[i][ColInscrit] and self.Incl_Invit.get() == 1) or
                     TxtInscrit in self.table[i][ColInscrit]
                     ):
                     self.Add_Member(i)
-#                    if TxT_LJ or TxT_SG or TxT_PK or TxT_Farfa in self.table[i][Colstruct]:
                     if self.table[i][ColMaitrise] =='0':
                         self.Add_Parents(i)
             # tous les contacts sont ajoutés à self.ContactsDic
@@ -190,6 +189,7 @@ class SGDF_ToolboxUI:
         MemberDict['Tel2'] = ''
         MemberDict['Tel3'] = ''
         MemberDict['Tel4'] = ''
+        MemberDict['DroitImage'] = ''
         MemberDict['NomLong'] = ''
         MemberDict['StructureLong'] = ''
         MemberDict['Adr'] = ''
@@ -209,21 +209,17 @@ class SGDF_ToolboxUI:
                     self.ContactsDic[key] = []
             # création d'un UID pour chercher les doublons de parents
             MemberDict['UID'] = MemberDict['Nom']+MemberDict['Prenom']+MemberDict['Tel1']+MemberDict['Tel2']+MemberDict['Tel3']+MemberDict['Tel4']
-            
             if MemberDict['UID'] in self.ContactsDic['UID']:
                   # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
-                  # Les contacts de la maitrise sont parcourus en premier donc seul le champ des enfants est à mettre à jour.
                 index = self.ContactsDic['UID'].index(MemberDict['UID'])
                 self.ContactsDic['Enfant'][index] += MemberDict['Enfant']
-                for Key in self.Structures:
-                    # ajout des infos des colonnes structures
-                    if MemberDict[self.Structures[Key][0]] != '':
-                        self.ContactsDic[self.Structures[Key][0]][index] = MemberDict[self.Structures[Key][0]]
+                # les autres champs sont OK car on enregistre la maitrise en premier
             else:
                 # Nouveau contact
                 for key in MemberDict:
                     #print(key)
                     self.ContactsDic[key].append(MemberDict[key])
+
         
     def Add_Member(self, i):
         # Ajoute le membre au Dictionnaire de Contacts
@@ -238,6 +234,7 @@ class SGDF_ToolboxUI:
         MemberDict['Tel2'] = self.table[i][ColTel2]
         MemberDict['Tel3'] = self.table[i][ColTel3]
         MemberDict['Tel4'] = self.table[i][ColTel4]
+        MemberDict['DroitImage'] = self.table[i][ColDroitsImage]
         MemberDict['Adr'] = self.table[i][ColAdr1].title() + ' '+ self.table[i][ColAdr2].title() + ' ' + self.table[i][ColAdr3].title()
         MemberDict['CP'] = self.table[i][ColCP] 
         MemberDict['Ville'] = self.table[i][ColVille].title()
@@ -396,13 +393,29 @@ class SGDF_ToolboxUI:
             if TypeMembre != '':
                 if FiltreUnit == 'All' or NomUnitCourt == FiltreUnit:
                     CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + TypeMembre
+                # ajout des étiquettes globales
+                if FiltreUnit == 'All':
+                    if (
+                        (LabelMembre in CSV_Row_List[CSV_Group] or LabelMaitrise in CSV_Row_List[CSV_Group])
+                        and LabelTouslesMembres not in CSV_Row_List[CSV_Group]):
+                            CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
+                    if LabelParent in CSV_Row_List[CSV_Group] and LabelTousLesParents not in CSV_Row_List[CSV_Group]:
+                        CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
+                    if LabelMaitrise in CSV_Row_List[CSV_Group] and NomUnitCourt in SelectLabelChefs and LabelChefs not in CSV_Row_List[CSV_Group]:
+                        CSV_Row_List[CSV_Group] += ' ::: ' + LabelChefs
+                    # print(NomUnitCourt)
+                    #    print(SelectLabelChefs) # =OrangesBleusRouges
 
         # ajout des étiquettes globales
-        if FiltreUnit == 'All':
-            if LabelMembre in CSV_Row_List[CSV_Group] or LabelMaitrise in CSV_Row_List[CSV_Group]:
-                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
-            if LabelParent in CSV_Row_List[CSV_Group]:
-                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
+#        if FiltreUnit == 'All':
+#            if LabelMembre in CSV_Row_List[CSV_Group] or LabelMaitrise in CSV_Row_List[CSV_Group]:
+#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
+#            if LabelParent in CSV_Row_List[CSV_Group]:
+#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
+#            if LabelMaitrise in CSV_Row_List[CSV_Group] and NomUnitCourt in SelectLabelChefs:
+#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelChefs
+#            print(NomUnitCourt)
+            #    print(SelectLabelChefs) # =OrangesBleusRouges
         
         # on crée un contact par email = 2 contacts si on a 2 mails
         Mail1_OK = self.CheckMail(MemberDict['Mail1'])
@@ -437,8 +450,6 @@ class SGDF_ToolboxUI:
         for i in range(DF.shape[0]):
             Contact = DF.iloc[i]
             ContactsCSV += self.PrepareCSV(Contact,FiltreUnit).copy()
-#            if "NomDBG" in Contact['Nom']:
-#                print(Contact)
         # Step 2: création du fichier
         MyDir = os.path.dirname(self.SourceFile.get())
         CSV_Name = MyDir+"/"+ FName 
@@ -478,7 +489,7 @@ class SGDF_ToolboxUI:
             #StructDF = df1[df1['StructureLong'].str.contains(Structure) | df1['FoncSecondaire'].str.contains(Structure)].copy()
             StructDF = df1[df1[StructLabel] != '' ].copy()
             StructDF = StructDF[(StructDF[StructLabel] != LabelParent)  ] # selectionne tt le monde sauf les parents
-            StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DateN']]
+            StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DroitImage', 'DateN']]
             StructDF = StructDF.sort_values(by=['Maitrise','Nom', 'Prenom'])
             ListColumns = StructDF.columns.values.tolist()
             sf2 = StyleFrame(StructDF)
