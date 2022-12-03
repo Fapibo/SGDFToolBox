@@ -210,10 +210,21 @@ class SGDF_ToolboxUI:
             # création d'un UID pour chercher les doublons de parents
             MemberDict['UID'] = MemberDict['Nom']+MemberDict['Prenom']+MemberDict['Tel1']+MemberDict['Tel2']+MemberDict['Tel3']+MemberDict['Tel4']
             if MemberDict['UID'] in self.ContactsDic['UID']:
-                  # l'ID existe déjà: c'est un parent. Il faut rajouter à la liste des enfants
+                # l'ID existe déjà: c'est un parent (ou un parent de plusieurs enfant, ou un parent farfa ou un violet parent, ....).
+                # on parcours en premier les membres donc on arrive ici uniquement pour les parents.
+                # Il faut rajouter à la liste des enfants
                 index = self.ContactsDic['UID'].index(MemberDict['UID'])
                 self.ContactsDic['Enfant'][index] += MemberDict['Enfant']
-                # les autres champs sont OK car on enregistre la maitrise en premier
+                # il faut indiquer que le parent est parent:
+                for Key in self.Structures:
+                     # ajout des infos des colonnes structures
+                     # ex: MemberDict['bleu']='Parent(s)'
+                     NomUnitCourt=self.Structures[Key][0]
+                     if MemberDict[NomUnitCourt] != '' and MemberDict[NomUnitCourt] not in self.ContactsDic[NomUnitCourt][index]:
+                         if self.ContactsDic[NomUnitCourt][index] == '':
+                             self.ContactsDic[NomUnitCourt][index] = MemberDict[NomUnitCourt]
+                         else:    
+                             self.ContactsDic[NomUnitCourt][index] += " et " + MemberDict[NomUnitCourt]
             else:
                 # Nouveau contact
                 for key in MemberDict:
@@ -389,10 +400,16 @@ class SGDF_ToolboxUI:
         CSV_Row_List[CSV_Group] = '* My Contacts'
         for NomUnit in self.Structures:
             NomUnitCourt = self.Structures[NomUnit][0]
-            TypeMembre = MemberDict[NomUnitCourt]
+            TypeMembre = MemberDict[NomUnitCourt] # type membre = LabelMaitrise, ou LabelParent, ...
             if TypeMembre != '':
                 if FiltreUnit == 'All' or NomUnitCourt == FiltreUnit:
-                    CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + TypeMembre
+                    # attention, type membre peut être "Maitrise Parent(s)"
+                    if LabelParent in TypeMembre:
+                        CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + LabelParent
+                    if LabelMaitrise in TypeMembre:
+                        CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + LabelMaitrise
+                    if LabelMembre in TypeMembre:
+                        CSV_Row_List[CSV_Group] += ' ::: ' + NomUnitCourt + ' ' + LabelMembre
                 # ajout des étiquettes globales
                 if FiltreUnit == 'All':
                     if (
@@ -401,22 +418,11 @@ class SGDF_ToolboxUI:
                             CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
                     if LabelParent in CSV_Row_List[CSV_Group] and LabelTousLesParents not in CSV_Row_List[CSV_Group]:
                         CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
-                    if LabelMaitrise in CSV_Row_List[CSV_Group] and NomUnitCourt in SelectLabelChefs and LabelChefs not in CSV_Row_List[CSV_Group]:
-                        CSV_Row_List[CSV_Group] += ' ::: ' + LabelChefs
+#                     if LabelMaitrise in CSV_Row_List[CSV_Group] and SelectLabelChefs in NomUnitCourt and LabelChefs not in CSV_Row_List[CSV_Group]:
+#                         CSV_Row_List[CSV_Group] += ' ::: ' + LabelChefs
                     # print(NomUnitCourt)
                     #    print(SelectLabelChefs) # =OrangesBleusRouges
 
-        # ajout des étiquettes globales
-#        if FiltreUnit == 'All':
-#            if LabelMembre in CSV_Row_List[CSV_Group] or LabelMaitrise in CSV_Row_List[CSV_Group]:
-#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTouslesMembres
-#            if LabelParent in CSV_Row_List[CSV_Group]:
-#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelTousLesParents
-#            if LabelMaitrise in CSV_Row_List[CSV_Group] and NomUnitCourt in SelectLabelChefs:
-#                CSV_Row_List[CSV_Group] += ' ::: ' + LabelChefs
-#            print(NomUnitCourt)
-            #    print(SelectLabelChefs) # =OrangesBleusRouges
-        
         # on crée un contact par email = 2 contacts si on a 2 mails
         Mail1_OK = self.CheckMail(MemberDict['Mail1'])
         Mail2_OK = self.CheckMail(MemberDict['Mail2'])
