@@ -13,6 +13,7 @@ from Const import * # import constant file
 
 class SGDF_ToolboxUI:
     def __init__(self, master):
+        pd.options.display.max_rows = 12
         self.master = master
         self.table = [] # fichier source importé sous forme de liste 2D
         self.tableOK = False # True quand fichier importé OK.
@@ -81,7 +82,7 @@ class SGDF_ToolboxUI:
             self.table  = TableList.astype(str).values.tolist() # Table 0 W/O title
         except Exception as Err:
             self.tableOK = False
-            #print(str(Err))
+            print(str(Err))
         else:
             if len(self.table) < 1 or len(self.table[0]) < ColInscDateFin:
                 self.tableOK = False
@@ -497,28 +498,32 @@ class SGDF_ToolboxUI:
             StructDF = StructDF[(StructDF[StructLabel] != LabelParent)  ] # selectionne tt le monde sauf les parents
             StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DroitImage', 'DateN']]
             StructDF = StructDF.sort_values(by=['Maitrise','Nom', 'Prenom'])
-            ListColumns = StructDF.columns.values.tolist()
-            sf2 = StyleFrame(StructDF)
-            sf2.to_excel(excel_writer=ew,
-                         row_to_add_filters=0,
-                         best_fit=ListColumns,
-                         columns_and_rows_to_freeze='C2',
-                         sheet_name=StructLabel)
-            # ecriture de l'excel de chaque unité
-            ew2 = StyleFrame.ExcelWriter(XlsName + ' ' + StructLabel + '.xlsx')
-            sf2.to_excel(excel_writer=ew2,
-                         row_to_add_filters=0,
-                         best_fit=ListColumns,
-                         columns_and_rows_to_freeze='C2',
-                         sheet_name=StructLabel)
-            ew2.save()
+            print(StructDF)
+            if not StructDF.empty:
+                # pas d'export s'il n'y a personne dans l'unité
+                ListColumns = StructDF.columns.values.tolist()
+                sf2 = StyleFrame(StructDF)
+                sf2.to_excel(excel_writer=ew,
+                             row_to_add_filters=0,
+                             best_fit=ListColumns,
+                             columns_and_rows_to_freeze='C2',
+                             sheet_name=StructLabel)
+                # ecriture de l'excel de chaque unité
+                ew2 = StyleFrame.ExcelWriter(XlsName + ' ' + StructLabel + '.xlsx')
+                sf2.to_excel(excel_writer=ew2,
+                             row_to_add_filters=0,
+                             best_fit=ListColumns,
+                             columns_and_rows_to_freeze='C2',
+                             sheet_name=StructLabel)
+                ew2.close()
             
             # Compte le nombre d'enfants:
             StructDF = StructDF[(StructDF['Maitrise'] == 'Non' ) ]
+            StructDF = StructDF[(~StructDF['InscType'].str.contains(TxtPreInscrit) ) ] # ne contient pas PréInscrit
             NbInscrit = StructDF[StructDF['InscType'].str.contains(TxtInscrit)].shape[0]
             NbInvit = StructDF[StructDF['InscType'].str.contains(TxtInvit)].shape[0]
             NbFille = StructDF[StructDF['Civ'].str.contains(TxtFille)].shape[0]
-            NbTot = NbInvit + NbInscrit
+            NbTot = NbInvit + NbInscrit #+ NbPreInscr
             NbGar = NbTot - NbFille
             if NbTot != 0:
                 TableauBord.append([Structure, NbInscrit, NbInvit, NbFille, NbGar, NbInscrit+NbInvit])
@@ -530,7 +535,7 @@ class SGDF_ToolboxUI:
                      row_to_add_filters=0, 
                      best_fit=ListColumns, 
                      sheet_name="TableauBord")
-        ew.save()
+        ew.close()
 
     def CheckMail(self,Mail):
         # vérifie si mail valide

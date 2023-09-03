@@ -122,4 +122,3 @@ CSV_Structure = 53 # Organization 1 - Name
 URLHelp = 'https://github.com/Fapibo/SGDFToolBox#readme'
 
 
-
