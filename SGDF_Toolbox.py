@@ -191,6 +191,7 @@ class SGDF_ToolboxUI:
         MemberDict['Tel3'] = ''
         MemberDict['Tel4'] = ''
         MemberDict['DroitImage'] = ''
+        MemberDict['NumAlloc'] = ''
         MemberDict['NomLong'] = ''
         MemberDict['StructureLong'] = ''
         MemberDict['Adr'] = ''
@@ -271,6 +272,7 @@ class SGDF_ToolboxUI:
             MemberDict[self.Structures[TmpStructCompa][0]]  = LabelMembre
         MemberDict['InscDateFin']= self.table[i][ColInscDateFin]
         MemberDict['DateN'] = self.table[i][ColDateN]
+        MemberDict['NumAlloc'] = self.table[i][ColNumAlloc]
         # ajout des mails
         if self.KeepDuplicatesMails.get() == 1:
             MemberDict['Mail1'] = self.table[i][ColMail1]
@@ -496,9 +498,9 @@ class SGDF_ToolboxUI:
             #StructDF = df1[df1['StructureLong'].str.contains(Structure) | df1['FoncSecondaire'].str.contains(Structure)].copy()
             StructDF = df1[df1[StructLabel] != '' ].copy()
             StructDF = StructDF[(StructDF[StructLabel] != LabelParent)  ] # selectionne tt le monde sauf les parents
-            StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'DroitImage', 'DateN']]
+            StructDF = StructDF[['Civ', 'Nom','Prenom','Maitrise','InscType', 'VerifAge', 'NumAlloc',  'DroitImage', 'DateN']]
             StructDF = StructDF.sort_values(by=['Maitrise','Nom', 'Prenom'])
-            print(StructDF)
+            # print(StructDF)
             if not StructDF.empty:
                 # pas d'export s'il n'y a personne dans l'unité
                 ListColumns = StructDF.columns.values.tolist()

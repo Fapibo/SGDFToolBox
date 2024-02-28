@@ -22,6 +22,7 @@ ColTel4 = 21 # Individu.TelephoneBureau
 ColMail1 = 23 # Individu.CourrielPersonnel
 ColMail2 = 24 # Individu.CourrielDédiéSGDF
 ColDateN = 25 # Date de naissance
+ColNumAlloc = 29 # Individu.NumeroAllocataire
 ColDroitsImage = 39#Individu.DroitOutilsNumeriques
 ColAboNewsletter = 40 # Individu.AbonnementNewsletter
 ColPapaCiv = 41 # PereCivilite.NomCourt
@@ -77,7 +78,7 @@ LabelChefs = 'TOUS_les_Chefs LJ SG PK'
 # age min sert pour vérifier si l'enfant est bien inscrit dans la bonne couleur
 
 # utile pour detecter les compas en fonciton secondaires et pour ajouter les maitrises Farfa et Compas aux violets
-TxtCompaFnSecondr = '- 1ERE COMPAGNONS -'
+TxtCompaFnSecondr = '- 1ERE COMPAGNONS - VAISE'
 LabelCompa = 'Compas'
 
 Struct_Type = [
@@ -86,6 +87,7 @@ Struct_Type = [
                 {"Label": 'Rouges' , "Txt":'PIONNIERS CARAVELLES' ,  "AgeMin": 14, "AgeMax": 16},
                 {"Label": 'Farfas', "Txt":'FARFADETS' ,  "AgeMin": 6, "AgeMax": 7},
                 {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 99},
+                {"Label": 'Impeesa' , "Txt":'IMPEESA' ,  "AgeMin": 17, "AgeMax": 99},
                 {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 99}
             ]
 
