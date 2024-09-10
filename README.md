@@ -24,6 +24,8 @@ Cocher:
 
 Laisser toutes les autres options par défaut. Il est possible d'enregister la configuration.
 
+![Config Intranet](./IntranetCfg.png "IntranetCfg")
+
 ## utilisation
 1. Lancer le programe
 1. Selectionner le fichier extrait de l'intranet
