@@ -34,8 +34,15 @@ Laisser toutes les autres options par défaut. Il est possible d'enregister la c
 
 
 Le programme crée dans le même dossier:
-* un fichier CSV à importer dans gmail
-* un fichier excel
+* des fichiers CSV pour import GMAIL: un fichier CSV pour le groupe et un pour chaque couleur (ex:permet d'importer uniquement les contacts des bleus dans la boite gmail des bleus et tous les contact du groupe dans la boite du groupe)
+* un fichier excel pour le groupe avec un onglet par couleur.
+* Un fichier xlsx par couleur est aussi généré.
+
+Faire la mise à jour des contacts dans gmail - application contacts. Voir aide de google.
+On obtient des labels avec les listes de diffusion pour les matrises, les jeunes et les parents.
+
+
+Rappel: les données des personnes sont confidentielles et ne doivent pas être partagées (les chefs d'une unité n'ont pas à avoir l'export total du groupe entre les mains); les courriers doivent toujours partir en copie cachée.
 
 # Lancement
 Télécharger la dernière version [ici](https://github.com/Fapibo/SGDFToolBox/releases) 
