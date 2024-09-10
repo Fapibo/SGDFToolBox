@@ -40,7 +40,7 @@ Le programme crée dans le même dossier:
 
 Faire la mise à jour des contacts dans gmail - application contacts. Voir aide de google.
 On obtient des labels avec les listes de diffusion pour les matrises, les jeunes et les parents.
-
+![Gmail après import](./gmail.png "Gmail")
 
 Rappel: les données des personnes sont confidentielles et ne doivent pas être partagées (les chefs d'une unité n'ont pas à avoir l'export total du groupe entre les mains); les courriers doivent toujours partir en copie cachée.
 
