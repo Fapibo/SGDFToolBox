@@ -9,53 +9,56 @@ Colstruct = 5 # Structure.Nom
 ColFonction = 6 # Fonction.Code
 ColMaitrise = 7 # Fonction.CategorieMembre
 ColFoncSecondaire = 10 # Inscription.Delegations
-ColAdr1 = 12 # Individu.Adresse.Ligne1
-ColAdr2 = 13 # Individu.Adresse.Ligne2
-ColAdr3 = 14 # Individu.Adresse.Ligne3
-ColCP = 15 # Individu.Adresse.CodePostal
-ColVille = 16 # Individu.Adresse.Municipalite
-ColPays = 17 # Individu.Adresse.Pays
-ColTel1 = 18 # Individu.TelephoneDomicile
-ColTel2 = 19 # Individu.TelephonePortable1
-ColTel3 = 20 # Individu.TelephonePortable2
-ColTel4 = 21 # Individu.TelephoneBureau
-ColMail1 = 23 # Individu.CourrielPersonnel
-ColMail2 = 24 # Individu.CourrielDédiéSGDF
-ColDateN = 25 # Date de naissance
-ColDroitsImage = 39#Individu.DroitOutilsNumeriques
-ColAboNewsletter = 40 # Individu.AbonnementNewsletter
-ColPapaCiv = 41 # PereCivilite.NomCourt
-ColPapaNom = 43 # Pere.Nom
-ColPapaPrenom = 44 # Pere.Prenom
-ColPapaAdr1 = 45 # Pere.Adresse.Ligne1
-ColPapaAdr2 = 46 # Pere.Adresse.Ligne2
-ColPapaAdr3 = 47 # Pere.Adresse.Ligne3
-ColPapaCP = 48 # Pere.Adresse.CodePostal
-ColPapaVille = 49 # Pere.Adresse.Municipalite
-ColPapaPays = 50 # Pere.Adresse.Pays
-ColPapaTel1 = 51 # Pere.TelephoneDomicile
-ColPapaTel2 = 52 # Pere.TelephonePortable1
-ColPapaTel3 = 53 # Pere.TelephonePortable2
-ColPapaTel4 = 54 # Pere.TelephoneBureau
-ColPapaMail1 = 56 # Pere.CourrielPersonnel
-ColPapaMail2 = 57 # Pere.CourrielDédiéSGDF
-ColMamCiv = 58 # MereCivilite.NomCourt
-ColMamNom = 60 # Mere.Nom
-ColMamPrenom = 61 # Mere.Prenom
-ColMamAdr1 = 62 # Mere.Adresse.Ligne1
-ColMamAdr2 = 63 # Mere.Adresse.Ligne2
-ColMamAdr3 = 64 # Mere.Adresse.Ligne3
-ColMamCP = 65 # Mere.Adresse.CodePostal
-ColMamVille = 66 # Mere.Adresse.Municipalite
-ColMamPays = 67 # Mere.Adresse.Pays
-ColMamTel1 = 68 # Mere.TelephoneDomicile
-ColMamTel2 = 69 # Mere.TelephonePortable1
-ColMamTel3 = 70 # Mere.TelephonePortable2
-ColMamTel4 = 71 # Mere.TelephoneBureau
-ColMamMail1 = 73 # Mere.CourrielPersonnel
-ColMamMail2 = 74 # Mere.CourrielDédiéSGDF
-ColInscrit = 75 # Inscriptions.Type
-ColInscDateFin = 77 # Inscriptions.Date.fin
+ColPrenomCivil = 12 #Individu.PrenomCivil
+ColAdr1 = 13 # Individu.Adresse.Ligne1
+ColAdr2 = 14 # Individu.Adresse.Ligne2
+ColAdr3 = 15 # Individu.Adresse.Ligne3
+ColCP = 16 # Individu.Adresse.CodePostal
+ColVille = 17 # Individu.Adresse.Municipalite
+ColPays = 18 # Individu.Adresse.Pays
+ColTel1 = 19 # Individu.TelephoneDomicile
+ColTel2 = 20 # Individu.TelephonePortable1
+ColTel3 = 21 # Individu.TelephonePortable2
+ColTel4 = 22 # Individu.TelephoneBureau
+ColMail1 = 24 # Individu.CourrielPersonnel
+ColMail2 = 25 # Individu.CourrielDédiéSGDF
+ColDateN = 26 # Date de naissance
+ColNumAlloc = 30 # Individu.NumeroAllocataire
+ColDroitsImage = 40#Individu.DroitOutilsNumeriques
+ColAboNewsletter = 41 # Individu.AbonnementNewsletter
+ColRespL1Civ = 42 # PereCivilite.NomCourt
+ColRespL1Nom = 44 # Pere.Nom
+ColRespL1Prenom = 45 # Pere.Prenom
+ColRespL1Adr1 = 46 # Pere.Adresse.Ligne1
+ColRespL1Adr2 = 47 # Pere.Adresse.Ligne2
+ColRespL1Adr3 = 48 # Pere.Adresse.Ligne3
+ColRespL1CP = 49 # Pere.Adresse.CodePostal
+ColRespL1Ville = 50 # Pere.Adresse.Municipalite
+ColRespL1Pays = 51 # Pere.Adresse.Pays
+ColRespL1Tel1 = 52 # Pere.TelephoneDomicile
+ColRespL1Tel2 = 53 # Pere.TelephonePortable1
+ColRespL1Tel3 = 54 # Pere.TelephonePortable2
+ColRespL1Tel4 = 55 # Pere.TelephoneBureau
+ColRespL1Mail1 = 57 # Pere.CourrielPersonnel
+ColRespL1Mail2 = 58 # Pere.CourrielDédiéSGDF
+ColRespL2Civ = 59 # MereCivilite.NomCourt
+ColRespL2Nom = 61 # Mere.Nom
+ColRespL2Prenom = 62 # Mere.Prenom
+ColRespL2Adr1 = 63 # Mere.Adresse.Ligne1
+ColRespL2Adr2 = 64 # Mere.Adresse.Ligne2
+ColRespL2Adr3 = 65 # Mere.Adresse.Ligne3
+ColRespL2CP = 66 # Mere.Adresse.CodePostal
+ColRespL2Ville = 67 # Mere.Adresse.Municipalite
+ColRespL2Pays = 68 # Mere.Adresse.Pays
+ColRespL2Tel1 = 69 # Mere.TelephoneDomicile
+ColRespL2Tel2 = 70 # Mere.TelephonePortable1
+ColRespL2Tel3 = 71 # Mere.TelephonePortale2
+ColRespL2Tel4 = 72 # Mere.TelephoneBureau
+ColRespL2Mail1 = 74 # Mere.CourrielPersonnel
+ColRespL2Mail2 = 75 # Mere.CourrielDédiéSGDF
+ColInscrit = 93 # Inscriptions.Type
+ColInscDateDebut = 94 # Inscriptions.Date.Debut
+ColInscDateFin = 95 # Inscriptions.Date.fin
 
 ###########
 TxtPreInscrit = "-inscrit"
@@ -65,8 +68,8 @@ TxtFille = 'e' # texte contenu dans la colonne civité qui permet de savoir si c
 LabelMembre = 'Membre(s)'
 LabelParent = 'Parent(s)'
 LabelMaitrise = 'Maitrise'
-LabelPapa = 'Papa'
-LabelMaman = 'Maman'
+LabelRespL1 = 'Resp1'
+LabelRespL2 = 'Resp2'
 LabelTousLesParents = 'TOUS_les_parents'
 LabelTouslesMembres = 'TOUS_les_membres'
 LabelChefs = 'TOUS_les_Chefs LJ SG PK'
@@ -77,7 +80,7 @@ LabelChefs = 'TOUS_les_Chefs LJ SG PK'
 # age min sert pour vérifier si l'enfant est bien inscrit dans la bonne couleur
 
 # utile pour detecter les compas en fonciton secondaires et pour ajouter les maitrises Farfa et Compas aux violets
-TxtCompaFnSecondr = '- 1ERE COMPAGNONS -'
+TxtCompaFnSecondr = '- 1ERE COMPAGNONS - VAISE'
 LabelCompa = 'Compas'
 
 Struct_Type = [
@@ -86,12 +89,13 @@ Struct_Type = [
                 {"Label": 'Rouges' , "Txt":'PIONNIERS CARAVELLES' ,  "AgeMin": 14, "AgeMax": 16},
                 {"Label": 'Farfas', "Txt":'FARFADETS' ,  "AgeMin": 6, "AgeMax": 7},
                 {"Label": 'Violets' , "Txt":'GROUPE DE ' ,  "AgeMin": 17, "AgeMax": 99},
+                {"Label": 'Impeesa' , "Txt":'IMPEESA' ,  "AgeMin": 17, "AgeMax": 99},
                 {"Label": LabelCompa , "Txt": 'COMPAGNONS - ' ,  "AgeMin": 17, "AgeMax": 99}
             ]
 
 SelectLabelChefs = Struct_Type[0]['Label'] + Struct_Type[1]['Label'] + Struct_Type[2]['Label']
 
-###########
+########### pour génération du CSV pour GMAIL
 CSVNbCol = 60
 CSV_Header = 'Name,Given Name,Additional Name,Family Name,Yomi Name,Given Name Yomi,Additional Name Yomi,Family Name Yomi,Name Prefix,Name Suffix,Initials,Nickname,Short Name,Maiden Name,Birthday,Gender,Location,Billing Information,Directory Server,Mileage,Occupation,Hobby,Sensitivity,Priority,Subject,Notes,Language,Photo,Group Membership,E-mail 1 - Type,E-mail 1 - Value,E-mail 2 - Type,E-mail 2 - Value,E-mail 3 - Type,E-mail 3 - Value,Phone 1 - Type,Phone 1 - Value,Phone 2 - Type,Phone 2 - Value,Phone 3 - Type,Phone 3 - Value,Phone 4 - Type,Phone 4 - Value,Address 1 - Type,Address 1 - Formatted,Address 1 - Street,Address 1 - City,Address 1 - PO Box,Address 1 - Region,Address 1 - Postal Code,Address 1 - Country,Address 1 - Extended Address,Organization 1 - Type,Organization 1 - Name,Organization 1 - Yomi Name,Organization 1 - Title,Organization 1 - Department,Organization 1 - Symbol,Organization 1 - Location,Organization 1 - Job Description'
 CSV_NomLong = 0 # Name
