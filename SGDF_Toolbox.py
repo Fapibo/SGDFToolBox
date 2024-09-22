@@ -146,7 +146,7 @@ class SGDF_ToolboxUI:
                         # pas toujours de date de fin pour les invités dans le fichier généré... dans ce cas, je force 60j après le début.
                         DateFin = datetime.datetime.strptime(self.table[i][ColInscDateDebut], '%d/%m/%Y')
                         DateFin += datetime.timedelta(60) 
-                    print(DateFin)
+                    #print(DateFin)
                     if DateFin > datetime.datetime.now():
                             InvitOK = True
                 if (
